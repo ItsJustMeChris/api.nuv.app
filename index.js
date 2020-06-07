@@ -28,12 +28,7 @@ sequelize
   .import('./models/SessionToken')
   .import('./models/ApiKey')
   .import('./models/User');
-//   .import('./models/SessionToken')
-//   .import('./models/User')
-//   .import('./models/Goal')
-//   .import('./models/Motivation')
-//   .import('./models/Status')
-//   .import('./models/Comment');
+
 fastify.db = sequelize;
 fastify.Sequelize = Sequelize;
 
@@ -41,12 +36,6 @@ fastify.Sequelize = Sequelize;
 
 fastify.register(require('./routes/user/_build.js'), { prefix: '/v1/' });
 fastify.register(require('./routes/file/_build.js'), { prefix: '/v1/' });
-// fastify.register(require('./routes/users/_build.js'), { prefix: '/v1/' });
-// fastify.register(require('./routes/user'), { prefix: '/v1/' });
-// fastify.register(require('./routes/goal'), { prefix: '/v1/' });
-// fastify.register(require('./routes/motivation'), { prefix: '/v1/' });
-// fastify.register(require('./routes/status/_build.js'), { prefix: '/v1/' });
-// fastify.register(require('./routes/strategy/_build.js'), { prefix: '/v1/' });
 
 fastify.setErrorHandler((error, req, res) => {
   if (res.transaction) res.transaction.rollback();
