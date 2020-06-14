@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "aws-sdk": "^2.696.0",
     "bcryptjs": "^2.4.3",
     "dotenv": "^8.2.0",
     "eslint": "^7.2.0",

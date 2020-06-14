@@ -1,5 +1,6 @@
 const fastify = require('fastify')({ logger: true, level: process.env.NODE_ENV === 'production' ? 'error' : 'info' });
 const Sequelize = require('sequelize');
+const AWS = require('aws-sdk');
 
 if (process.env.NODE_ENV !== 'production') {
   fastify.log.info('Production mode not detected, loading from .env');
@@ -14,6 +15,13 @@ const sequelize = new Sequelize(process.env.DBNAME, process.env.DBUSER, process.
   host: process.env.DBHOST,
   dialect: 'postgres',
   operatorsAliases: false,
+});
+
+const s3 = new AWS.S3({
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_SECRET_KEY,
+  endpoint: 's3.us-east-2.amazonaws.com',
+  signatureVersion: 'v4',
 });
 
 
@@ -31,6 +39,7 @@ sequelize
 
 fastify.db = sequelize;
 fastify.Sequelize = Sequelize;
+fastify.s3 = s3;
 
 /* Register Routes */
 
