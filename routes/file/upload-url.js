@@ -1,11 +1,11 @@
 module.exports = async (fastify) => {
-  fastify.get('/upload-url/:uploadID/:partNumber/:fileName', async (req) => {
+  fastify.get('/upload-url', async (req) => {
     const uploadURL = await new Promise((resolve, reject) => {
-      fastify.s3.getSignedUrl({
+      fastify.s3.getSignedUrl('uploadPart', {
         Bucket: process.env.S3_BUCKET,
-        Key: req.params.uploadID,
-        PartNumber: req.params.partNumber,
-        UploadId: req.params.fileName,
+        Key: req.query.fileName,
+        PartNumber: req.query.partNumber,
+        UploadId: req.query.uploadId,
       }, (err, url) => {
         if (err) {
           reject(err);
@@ -14,6 +14,6 @@ module.exports = async (fastify) => {
         }
       });
     });
-    return uploadURL;
+    return { status: 'success', url: uploadURL };
   });
 };
